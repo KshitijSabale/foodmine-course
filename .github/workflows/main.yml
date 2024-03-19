@@ -1,0 +1,46 @@
+name: Deploy Angular App
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'release-demo-*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Angular App
+        run: npm run build --prod
+
+      - name: Deploy to EC2 Instance
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: dist/ # Or the directory where your Angular app is built
+          target: /path/to/destination/on/ec2
+
+      - name: SSH into EC2 Instance and execute commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /path/to/destination/on/ec2
+            # Execute additional commands here if needed
