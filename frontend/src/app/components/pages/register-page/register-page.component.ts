@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { IUserRegister } from 'src/app/shared/interfaces/IUserRegister';
-import { PasswordsMatchValidator } from 'src/app/shared/validators/password_match_validator';
+import { PasswordsMatchValidator } from '../../../../../src/app/shared/validators/password_match_validator';
 
 @Component({
   selector: 'app-register-page',

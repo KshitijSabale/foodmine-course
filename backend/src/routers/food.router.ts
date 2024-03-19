@@ -4,6 +4,8 @@ import asyncHandler from 'express-async-handler';
 import { FoodModel } from '../models/food.model';
 const router = Router();
 
+
+
 router.get(
   '/seed',
   asyncHandler(async (req, res) => {
@@ -22,7 +24,7 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     const foods = await FoodModel.find();
-    res.send(foods);
+    res.send(sample_foods);
   })
 );
 
@@ -31,7 +33,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const searchRegex = new RegExp(req.params.searchTerm, 'i');
     const foods = await FoodModel.find({ name: { $regex: searchRegex } });
-    res.send(foods);
+    res.send(sample_foods);
   })
 );
 
@@ -63,7 +65,7 @@ router.get(
     };
 
     tags.unshift(all);
-    res.send(tags);
+    res.send(sample_tags);
   })
 );
 
@@ -71,7 +73,7 @@ router.get(
   '/tag/:tagName',
   asyncHandler(async (req, res) => {
     const foods = await FoodModel.find({ tags: req.params.tagName });
-    res.send(foods);
+    res.send(sample_foods);
   })
 );
 
